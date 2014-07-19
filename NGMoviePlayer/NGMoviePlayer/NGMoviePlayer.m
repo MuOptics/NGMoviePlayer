@@ -209,7 +209,7 @@ static char playerAirPlayVideoActiveContext;
             [self.view updateViewsForCurrentScreenState];
 
             if (_delegateFlags.didChangeAirPlayActive) {
-                BOOL airPlayVideoActive = self.player.airPlayVideoActive;
+                BOOL airPlayVideoActive = self.player.externalPlaybackActive;
 
                 [self.delegate moviePlayer:self didChangeAirPlayActive:airPlayVideoActive];
             }
@@ -308,18 +308,26 @@ static char playerAirPlayVideoActiveContext;
 
 - (void)moviePlayerDidStartToPlay {
     // do nothing here
+    NSLog(@"didStartToPlay");
 }
 
 - (void)moviePlayerDidPausePlayback {
     // do nothing here
+    NSLog(@"didPause");
 }
 
 - (void)moviePlayerDidResumePlayback {
     // do nothing here
+    NSLog(@"didUnpause");
 }
 
 - (void)moviePlayerDidUpdateCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
     // do nothing here
+    if (self.isScrubbing) {
+        NSLog(@"is scrubbing and changing rate");
+    }
+    
+    NSLog(@"didUpdateCurrentPlaybackTime %f", currentPlaybackTime);
 }
 
 - (void)moviePlayerWillShowControlsWithDuration:(NSTimeInterval)duration {
@@ -345,6 +353,7 @@ static char playerAirPlayVideoActiveContext;
 - (void)addToSuperview:(UIView *)view withFrame:(CGRect)frame {
     self.view.frame = frame;
     [view addSubview:self.view];
+    [self.view setBackgroundColor:[UIColor clearColor]];
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -371,8 +380,8 @@ static char playerAirPlayVideoActiveContext;
     if (player != self.view.playerLayer.player) {
         // Support AirPlay?
         if (self.airPlayEnabled) {
-            [player setAllowsAirPlayVideo:YES];
-            [player setUsesAirPlayVideoWhileAirPlayScreenIsActive:YES];
+            [player setAllowsExternalPlayback:YES];
+            [player setUsesExternalPlaybackWhileExternalScreenIsActive:YES];
 
             [self.view.playerLayer.player removeObserver:self forKeyPath:@"airPlayVideoActive"];
 
@@ -396,7 +405,7 @@ static char playerAirPlayVideoActiveContext;
 }
 
 - (BOOL)isAirPlayVideoActive {
-    return [AVPlayer instancesRespondToSelector:@selector(isAirPlayVideoActive)] && self.player.airPlayVideoActive;
+    return [AVPlayer instancesRespondToSelector:@selector(isAirPlayVideoActive)] && self.player.externalPlaybackActive;
 }
 
 - (void)setURL:(NSURL *)URL {
@@ -407,9 +416,6 @@ static char playerAirPlayVideoActiveContext;
             [self.player pause];
             [self.player removeObserver:self forKeyPath:@"rate"];
             [self.player removeObserver:self forKeyPath:@"currentItem"];
-          /*  if ([AVPlayer instancesRespondToSelector:@selector(allowsAirPlayVideo)]) {
-                [self.player removeObserver:self forKeyPath:@"airPlayVideoActive"];
-            }*/
             
             self.player = nil;
         }
@@ -550,7 +556,6 @@ static char playerAirPlayVideoActiveContext;
 ////////////////////////////////////////////////////////////////////////
 
 - (void)beginScrubbing {
-    [self stopObservingPlayerTimeChanges];
 
     _rateToRestoreAfterScrubbing = self.player.rate;
     self.player.rate = 0.f;
@@ -565,13 +570,13 @@ static char playerAirPlayVideoActiveContext;
     // TODO: We need to set this somewhere later (or find another workaround)
     // Current Bug: when the player is paused and the user scrubs player starts
     // playing again because we get a KVO notification that the status changed to ReadyForPlay
-    self.scrubbing = NO;
     self.player.rate = _rateToRestoreAfterScrubbing;
+    self.scrubbing = NO;;
+    
     _rateToRestoreAfterScrubbing = 0.f;
 
     [self.skippingTimer invalidate];
     self.skippingTimer = nil;
-    [self startObservingPlayerTimeChanges];
 
     if (_delegateFlags.didEndScrubbing) {
         [self.delegate moviePlayerDidEndScrubbing:self];

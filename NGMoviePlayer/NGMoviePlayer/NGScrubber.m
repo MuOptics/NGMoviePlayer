@@ -95,6 +95,7 @@
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
+        self.backgroundColor = [UIColor clearColor];
         self.scrubbingSpeeds = [self defaultScrubbingSpeeds];
         self.scrubbingSpeedChangePositions = [self defaultScrubbingSpeedChangePositions];
         self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:0] floatValue];
@@ -106,7 +107,6 @@
         _playableView.userInteractionEnabled = NO;
         _playableView.backgroundColor = _playableValueColor;
         [self addSubview:_playableView];
-        
         [self constructSlider];
     }
     

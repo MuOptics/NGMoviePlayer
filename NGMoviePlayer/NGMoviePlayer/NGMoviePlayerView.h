@@ -12,9 +12,9 @@
 #import "NGMoviePlayerControlStyle.h"
 #import "NGWeak.h"
 #import "NGMoviePlayerScreenState.h"
+#import "NGMoviePlayerLayerView.h"
 
 
-@class NGMoviePlayerLayerView;
 @class NGMoviePlayerControlView;
 @protocol NGMoviePlayerControlActionDelegate;
 
@@ -25,6 +25,7 @@
 
 /** The wrapped player layer */
 @property (nonatomic, readonly) AVPlayerLayer *playerLayer;
+@property (nonatomic, strong) NGMoviePlayerLayerView *playerLayerView;
 
 /** The view that contains the controls and fades in/out */
 @property (nonatomic, strong, readonly) NGMoviePlayerControlView *controlsView;

@@ -58,7 +58,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor blackColor];
+    self.view.backgroundColor = [UIColor clearColor];
     self.moviePlayer.view.controlStyle = NGMoviePlayerControlStyleFullscreen;
     [self.moviePlayer addToSuperview:self.view withFrame:self.view.bounds];
 }
@@ -134,7 +134,7 @@
     if (self.navigationController != nil) {
         [self.navigationController popViewControllerAnimated:YES];
     } else {
-        [self dismissModalViewControllerAnimated:YES];
+        [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

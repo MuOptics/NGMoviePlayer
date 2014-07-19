@@ -32,18 +32,22 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor blackColor];
-    self.moviePlayer = [[NGMoviePlayer alloc] initWithURL:[NSURL URLWithString:@"http://movies.apple.com/media/us/iphone/2009/ads/apple-iphone3gs-ad-multi_people-us-20091123_640x360.mov"]];
+    NSURL *localVideo = [[NSBundle mainBundle] URLForResource:@"HCI" withExtension:@"m4v"];
+    self.moviePlayer = [[NGMoviePlayer alloc] initWithURL:localVideo];
     self.containerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.containerView.backgroundColor = [UIColor underPageBackgroundColor];
     self.containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.pppView = [[PSPushPopPressView alloc] initWithFrame:CGRectMake(10.f, 10.f, self.containerView.bounds.size.width-20.f, self.containerView.bounds.size.height/2-20.f)];
     self.pppView.allowSingleTapSwitch = NO;
     self.pppView.pushPopPressViewDelegate = self;
+    self.pppView.backgroundColor = [UIColor clearColor];
     self.pppView.autoresizingMask = UIViewAutoresizingNone;
     
     self.moviePlayer.delegate = self;
     [self.moviePlayer addToSuperview:self.pppView withFrame:self.pppView.bounds];
+//    [self.moviePlayer.view.playerLayerView setHidden:YES];
     [self.containerView addSubview:self.pppView];
+
     
     [self.view addSubview:self.containerView];
 }

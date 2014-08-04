@@ -11,7 +11,7 @@
 
 @interface MuSyncedMoviePlayer ();
 
-@property (weak) NGMoviePlayer *syncedMoviePlayer;
+@property (ng_weak) NGMoviePlayer *syncedMoviePlayer;
 
 @end
 

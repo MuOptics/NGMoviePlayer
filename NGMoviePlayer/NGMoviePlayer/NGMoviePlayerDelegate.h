@@ -17,6 +17,9 @@
 
 - (void)moviePlayer:(NGMoviePlayer *)moviePlayer didStartPlaybackOfURL:(NSURL *)URL;
 - (void)moviePlayer:(NGMoviePlayer *)moviePlayer didFailToLoadURL:(NSURL *)URL;
+
+- (void)moviePlayer:(NGMoviePlayer *)moviePlayer didLoadURL:(NSURL *)URL;
+
 - (void)moviePlayer:(NGMoviePlayer *)moviePlayer didFinishPlaybackOfURL:(NSURL *)URL;
 - (void)moviePlayerDidPausePlayback:(NGMoviePlayer *)moviePlayer;
 - (void)moviePlayerDidResumePlayback:(NGMoviePlayer *)moviePlayer;

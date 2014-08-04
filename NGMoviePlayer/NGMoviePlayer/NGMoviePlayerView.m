@@ -310,17 +310,24 @@ static char playerLayerReadyForDisplayContext;
 - (CGFloat)bottomControlsViewHeight {
     CGFloat height = CGRectGetHeight(self.controlsView.frame);
 
-    return  height - CGRectGetMinY(self.controlsView.bottomControlsView.frame) + 2*(height - CGRectGetMaxY(self.controlsView.bottomControlsView.frame));
+    return  height - CGRectGetMinY(self.controlsView.bottomControlsView.frame) + 2 *
+    (height - CGRectGetMaxY(self.controlsView.bottomControlsView.frame));
 }
 
 ////////////////////////////////////////////////////////////////////////
 #pragma mark - NGMoviePlayerView UI Update
 ////////////////////////////////////////////////////////////////////////
 
-- (void)updateWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration {
+- (void)updateWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration isScrubbing:(BOOL)isScrubbing
+{
     if (!isnan(currentTime) && !isnan(duration)) {
-        [self.controlsView updateScrubberWithCurrentTime:currentTime duration:duration];
+        [self.controlsView updateScrubberWithCurrentTime:currentTime duration:duration isScrubbing:isScrubbing];
     }
+}
+
+- (void)updateWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration
+{
+    [self updateWithCurrentTime:currentTime duration:duration isScrubbing:NO];
 }
 
 - (void)updateWithPlaybackStatus:(BOOL)isPlaying {

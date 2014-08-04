@@ -72,7 +72,9 @@
         }
         // volume control needs to get added to self instead of bottomControlView because otherwise the expanded slider
         // doesn't receive any touch events
-        [self addSubview:_volumeControl];
+        
+        //Commented out because Mu does not record audio.
+        //[self addSubview:_volumeControl];
 
 
         // We use the MPVolumeView just for displaying the AirPlay icon
@@ -110,13 +112,6 @@
         [_forwardControl addTarget:self action:@selector(handleForwardButtonTouchUp:) forControlEvents:UIControlEventTouchUpOutside];
         [_bottomControlsView addSubview:_forwardControl];
 
-        _playPauseControl = [UIButton buttonWithType:UIButtonTypeCustom];
-        _playPauseControl.frame = CGRectMake(0.f, 0.f, 44.f, 44.f);
-        _playPauseControl.contentMode = UIViewContentModeCenter;
-        _playPauseControl.showsTouchWhenHighlighted = YES;
-        _playPauseControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
-        [_playPauseControl addTarget:self action:@selector(handlePlayPauseButtonPress:) forControlEvents:UIControlEventTouchUpInside];
-        [_bottomControlsView addSubview:_playPauseControl];
 
         _scrubberControl = [[NGScrubber alloc] initWithFrame:CGRectZero];
         _scrubberControl.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -131,6 +126,14 @@
         _zoomControl.contentMode = UIViewContentModeCenter;
         [_zoomControl addTarget:self action:@selector(handleZoomButtonPress:) forControlEvents:UIControlEventTouchUpInside];
         [_topControlsView addSubview:_zoomControl];
+        
+        _playPauseControl = [UIButton buttonWithType:UIButtonTypeCustom];
+        _playPauseControl.frame = CGRectMake(0.f, 0.f, 44.f, 44.f);
+        _playPauseControl.contentMode = UIViewContentModeCenter;
+       // _playPauseControl.showsTouchWhenHighlighted = YES;
+        _playPauseControl.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+        [self.playPauseControl addTarget:self action:@selector(handlePlayPauseButtonPress:) forControlEvents:UIControlEventTouchUpInside];
+        [_topControlsView addSubview:_playPauseControl];
 
         _currentTimeLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _currentTimeLabel.backgroundColor = [UIColor clearColor];
@@ -226,13 +229,20 @@
     return self.scrubberControl.playableValue;
 }
 
-- (void)updateScrubberWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration {
+- (void)updateScrubberWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration
+{
+    [self updateScrubberWithCurrentTime:currentTime duration:duration isScrubbing:NO];
+}
+- (void)updateScrubberWithCurrentTime:(NSTimeInterval)currentTime duration:(NSTimeInterval)duration isScrubbing:(BOOL)isScrubbing
+{
     self.currentTimeLabel.text = NGMoviePlayerGetTimeFormatted(currentTime);
     self.remainingTimeLabel.text = NGMoviePlayerGetRemainingTimeFormatted(currentTime, duration);
 
-    [self.scrubberControl setMinimumValue:0.];
-    [self.scrubberControl setMaximumValue:duration];
-    [self.scrubberControl setValue:currentTime];
+    if (!isScrubbing) {
+        [self.scrubberControl setMinimumValue:0.];
+        [self.scrubberControl setMaximumValue:duration];
+        [self.scrubberControl setValue:currentTime];
+    }
 }
 
 - (void)updateButtonsWithPlaybackStatus:(BOOL)isPlaying {
@@ -252,6 +262,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (void)handlePlayPauseButtonPress:(id)sender {
+    NSLog(@"play pause press");
     [self.delegate moviePlayerControl:sender didPerformAction:NGMoviePlayerControlActionTogglePlayPause];
 }
 
@@ -276,10 +287,12 @@
 }
 
 - (void)handleBeginScrubbing:(id)sender {
+    NSLog(@"begin scrubbing");
     [self.delegate moviePlayerControl:sender didPerformAction:NGMoviePlayerControlActionBeginScrubbing];
 }
 
 - (void)handleScrubbingValueChanged:(id)sender {
+    NSLog(@"scrubbing changed");
     if (self.scrubbingTimeDisplay == NGMoviePlayerControlScrubbingTimeDisplayCurrentTime) {
         self.currentTimeLabel.text = NGMoviePlayerGetTimeFormatted(self.scrubberControl.value);
         self.remainingTimeLabel.text = NGMoviePlayerGetRemainingTimeFormatted(self.scrubberControl.value, self.scrubberControl.maximumValue);
@@ -289,6 +302,7 @@
 }
 
 - (void)handleEndScrubbing:(id)sender {
+    NSLog(@"End scrubbing");
     [self.delegate moviePlayerControl:sender didPerformAction:NGMoviePlayerControlActionEndScrubbing];
 }
 

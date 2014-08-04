@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		379BBC5D198F1CE700E0E341 /* MuSyncedMoviePlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 379BBC5B198F1CE700E0E341 /* MuSyncedMoviePlayer.h */; };
+		379BBC5E198F1CE700E0E341 /* MuSyncedMoviePlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 379BBC5C198F1CE700E0E341 /* MuSyncedMoviePlayer.m */; };
 		9B030F8215FE1CE000B8107A /* NGMoviePlayerLayout+NGPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B030F8015FE1CE000B8107A /* NGMoviePlayerLayout+NGPrivate.h */; };
 		9B030F8715FE1D7000B8107A /* NGMoviePlayerDefaultLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 9B030F8515FE1D7000B8107A /* NGMoviePlayerDefaultLayout.h */; };
 		9B030F8815FE1D7000B8107A /* NGMoviePlayerDefaultLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B030F8615FE1D7000B8107A /* NGMoviePlayerDefaultLayout.m */; };
@@ -59,6 +61,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		379BBC5B198F1CE700E0E341 /* MuSyncedMoviePlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MuSyncedMoviePlayer.h; sourceTree = "<group>"; };
+		379BBC5C198F1CE700E0E341 /* MuSyncedMoviePlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MuSyncedMoviePlayer.m; sourceTree = "<group>"; };
 		9B030F8015FE1CE000B8107A /* NGMoviePlayerLayout+NGPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NGMoviePlayerLayout+NGPrivate.h"; sourceTree = "<group>"; };
 		9B030F8515FE1D7000B8107A /* NGMoviePlayerDefaultLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGMoviePlayerDefaultLayout.h; sourceTree = "<group>"; };
 		9B030F8615FE1D7000B8107A /* NGMoviePlayerDefaultLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGMoviePlayerDefaultLayout.m; sourceTree = "<group>"; };
@@ -155,6 +159,8 @@
 		9B04550F150640BA007F8E7C /* NGMoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				379BBC5B198F1CE700E0E341 /* MuSyncedMoviePlayer.h */,
+				379BBC5C198F1CE700E0E341 /* MuSyncedMoviePlayer.m */,
 				9B04558715064DAD007F8E7C /* NGMoviePlayer.h */,
 				9B04558815064DAE007F8E7C /* NGMoviePlayer.m */,
 				9B1FFFF2152471D600DCE624 /* NGMoviePlayerAudioSessionCategory.h */,
@@ -224,6 +230,7 @@
 			files = (
 				9B0455741506421D007F8E7C /* NGScrubber.h in Headers */,
 				9B04557F150644EE007F8E7C /* NGMoviePlayerLayerView.h in Headers */,
+				379BBC5D198F1CE700E0E341 /* MuSyncedMoviePlayer.h in Headers */,
 				9B04558215064569007F8E7C /* NGMoviePlayerDelegate.h in Headers */,
 				9B0455861506482A007F8E7C /* NGMoviePlayerVideoGravity.h in Headers */,
 				9B04558915064DAE007F8E7C /* NGMoviePlayer.h in Headers */,
@@ -312,6 +319,7 @@
 				9B045580150644EE007F8E7C /* NGMoviePlayerLayerView.m in Sources */,
 				9B04558A15064DAE007F8E7C /* NGMoviePlayer.m in Sources */,
 				9B73C736150F38B000A4069A /* NGMoviePlayerControlView.m in Sources */,
+				379BBC5E198F1CE700E0E341 /* MuSyncedMoviePlayer.m in Sources */,
 				9BFF8CE61521BFDF0028D3A2 /* NGMoviePlayerFunctions.m in Sources */,
 				9B2C515D15C211430031EF2A /* NGMoviePlayerViewController.m in Sources */,
 				9B2030EB15C2FED400CE8CC4 /* NGMoviePlayerPlaceholderView.m in Sources */,

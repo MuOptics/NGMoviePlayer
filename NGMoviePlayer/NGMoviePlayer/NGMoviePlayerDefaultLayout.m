@@ -288,14 +288,17 @@
 
     // play button always on the left
     self.playPauseControl.frame = CGRectMake(0.f, 0.f, kControlWidth, controlsViewHeight);
-    leftEdge = self.playPauseControl.frame.origin.x + self.playPauseControl.frame.size.width;
+    
+    //Commented out because we've moved play to the top line. Tj- MuOptics
+//    leftEdge = self.playPauseControl.frame.origin.x + self.playPauseControl.frame.size.width;
 
     // volume control and zoom button are always on the right
     self.zoomControl.frame = CGRectMake(width-kControlWidth, 0.f, kControlWidth, controlsViewHeight);
     [self.zoomControl setImage:[UIImage imageNamed:@"NGMoviePlayer.bundle/zoomIn"] forState:UIControlStateNormal];
 
     self.volumeControl.frame = CGRectMake(rightEdge-kControlWidth, self.bottomControlsView.frame.origin.y, kControlWidth, controlsViewHeight);
-    rightEdge = self.volumeControl.frame.origin.x;
+    //Commented out because we don't record/play volume. Tj- MuOptics
+//    rightEdge = self.volumeControl.frame.origin.x;
 
     // we always position the airplay button, but only update the left edge when the button is visible
     // this is a workaround for a layout bug I can't remember

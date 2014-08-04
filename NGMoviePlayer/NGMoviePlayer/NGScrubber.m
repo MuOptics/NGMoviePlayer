@@ -170,9 +170,12 @@
 ////////////////////////////////////////////////////////////////////////
 
 - (BOOL)beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+
     BOOL beginTracking = [super beginTrackingWithTouch:touch withEvent:event];
     
+ 
     if (beginTracking) {
+        NSLog(@"Begin tracking");
 		// Set the beginning tracking location to the centre of the current
 		// position of the thumb. This ensures that the thumb is correctly re-positioned
 		// when the touch position moves back to the track after tracking in one
@@ -197,6 +200,7 @@
 }
 
 - (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    NSLog(@"continue tracking");
     if (self.tracking) {
         CGPoint previousLocation = [touch previousLocationInView:self];
         CGPoint currentLocation  = [touch locationInView:self];
@@ -237,6 +241,7 @@
 }
 
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
+    NSLog(@"End tracking");
     if (self.tracking) {
         self.scrubbingSpeed = [[self.scrubbingSpeeds objectAtIndex:0] floatValue];
         [self sendActionsForControlEvents:UIControlEventValueChanged];

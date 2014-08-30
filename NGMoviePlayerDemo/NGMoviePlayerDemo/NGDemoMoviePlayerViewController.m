@@ -7,6 +7,7 @@
 //
 
 #import "NGDemoMoviePlayerViewController.h"
+#import "MuSyncedMoviePlayer.h"
 
 @interface NGDemoMoviePlayerViewController () {
     NSUInteger activeCount_;
@@ -14,7 +15,9 @@
 
 @property (nonatomic, strong) UIView *containerView;
 @property (nonatomic, strong) NGMoviePlayer *moviePlayer;
+@property (nonatomic, strong) NGMoviePlayer *moviePlayer2;
 @property (nonatomic, strong) PSPushPopPressView *pppView;
+@property (nonatomic, strong) PSPushPopPressView *pppView2;
 
 @end
 
@@ -32,22 +35,33 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [UIColor blackColor];
-    NSURL *localVideo = [[NSBundle mainBundle] URLForResource:@"HCI" withExtension:@"m4v"];
-    self.moviePlayer = [[NGMoviePlayer alloc] initWithURL:localVideo];
+    NSString *thermalPath = [[NSBundle mainBundle] pathForResource:@"thermal-428806144" ofType:@"m4v"];
+    self.moviePlayer = [[NGMoviePlayer alloc] initWithURL:[NSURL fileURLWithPath:thermalPath]];
+    NSString *livePath = [[NSBundle mainBundle] pathForResource:@"live-428806144" ofType:@"m4v"];
+    self.moviePlayer2 = [[MuSyncedMoviePlayer alloc] initWithURL:[NSURL fileURLWithPath:livePath] initialPlaybackTime:0 playerToSyncWith:self.moviePlayer];
+    
     self.containerView = [[UIView alloc] initWithFrame:self.view.bounds];
     self.containerView.backgroundColor = [UIColor underPageBackgroundColor];
     self.containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
     self.pppView = [[PSPushPopPressView alloc] initWithFrame:CGRectMake(10.f, 10.f, self.containerView.bounds.size.width-20.f, self.containerView.bounds.size.height/2-20.f)];
     self.pppView.allowSingleTapSwitch = NO;
     self.pppView.pushPopPressViewDelegate = self;
-    self.pppView.backgroundColor = [UIColor clearColor];
     self.pppView.autoresizingMask = UIViewAutoresizingNone;
     
     self.moviePlayer.delegate = self;
     [self.moviePlayer addToSuperview:self.pppView withFrame:self.pppView.bounds];
-//    [self.moviePlayer.view.playerLayerView setHidden:YES];
     [self.containerView addSubview:self.pppView];
-
+    
+    
+    self.pppView2 = [[PSPushPopPressView alloc] initWithFrame:CGRectMake(10.f, self.containerView.bounds.size.height/2, self.containerView.bounds.size.width-20.f, self.containerView.bounds.size.height/2-20.f)];
+    self.pppView2.allowSingleTapSwitch = NO;
+    self.pppView2.pushPopPressViewDelegate = self;
+    self.pppView2.autoresizingMask = UIViewAutoresizingNone;
+    
+    self.moviePlayer2.delegate = self;
+    [self.moviePlayer2 addToSuperview:self.pppView2 withFrame:self.pppView2.bounds];
+    [self.containerView addSubview:self.pppView2];
     
     [self.view addSubview:self.containerView];
 }
@@ -78,7 +92,7 @@
 }
 
 - (void)moviePlayer:(NGMoviePlayer *)moviePlayer didChangeStatus:(AVPlayerStatus)playerStatus {
-    NSLog(@"Status chaned: %d", playerStatus);
+    NSLog(@"Status chaned: %ld", (long)playerStatus);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

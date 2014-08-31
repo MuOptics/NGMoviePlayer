@@ -12,39 +12,58 @@
 @interface MuSyncedMoviePlayer ();
 
 @property (ng_weak) NGMoviePlayer *syncedMoviePlayer;
-
+@property NSArray *controlsToToggleHidden;
 @end
 
 @implementation MuSyncedMoviePlayer
 
-- (id)initWithURL:(NSURL *)URL initialPlaybackTime:(NSTimeInterval)initialPlaybackTime playerToSyncWith:(NGMoviePlayer *)syncedPlayer
+- (id)initWithURL:(NSURL *)URL playerToSyncWith:(NGMoviePlayer *)syncedPlayer viewsToToggleDisplayOf:(NSArray *)array
 {
-    self = [super initWithURL:URL initialPlaybackTime:initialPlaybackTime];
+    self = [super initWithURL:URL initialPlaybackTime:0];
     if (self) {
         _syncedMoviePlayer = syncedPlayer;
+        _controlsToToggleHidden = array;
     }
     
     return self;
 }
 
-- (void)moviePlayerDidStartToPlay {
-    // do nothing here
+- (void)moviePlayerDidStartToPlay
+{
     [self.syncedMoviePlayer play];
 }
 
-- (void)moviePlayerDidPausePlayback {
-    // do nothing here
+- (void)moviePlayerDidPausePlayback
+{
     [self.syncedMoviePlayer pause];
 }
 
-- (void)moviePlayerDidResumePlayback {
-    // do nothing here
+- (void)moviePlayerDidResumePlayback
+{
     [self.syncedMoviePlayer play];
 }
 
-- (void)moviePlayerDidUpdateCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime {
-    // do nothing here
+- (void)moviePlayerDidUpdateCurrentPlaybackTime:(NSTimeInterval)currentPlaybackTime
+{
     [self.syncedMoviePlayer setCurrentPlaybackTime:currentPlaybackTime];
+}
+
+- (void)moviePlayerWillShowControlsWithDuration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        [self.controlsToToggleHidden enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            [view setAlpha:1];
+        }];
+    }];
+}
+
+- (void)moviePlayerWillHideControlsWithDuration:(NSTimeInterval)duration
+{
+    [UIView animateWithDuration:duration animations:^{
+        [self.controlsToToggleHidden enumerateObjectsUsingBlock:^(UIView *view, NSUInteger idx, BOOL *stop) {
+            [view setAlpha:0];
+        }];
+    }];
 }
 
 

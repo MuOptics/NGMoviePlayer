@@ -10,8 +10,6 @@
 
 @interface MuSyncedMoviePlayer : NGMoviePlayer
 
-- (id)initWithURL:(NSURL *)URL
-initialPlaybackTime:(NSTimeInterval)initialPlaybackTime
- playerToSyncWith:(NGMoviePlayer *)syncedPlayer;
+- (id)initWithURL:(NSURL *)URL playerToSyncWith:(NGMoviePlayer *)syncedPlayer viewsToToggleDisplayOf:(NSArray *)array;
 
 @end
